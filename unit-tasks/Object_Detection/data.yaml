@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 24
+names: ['Adjustable Wrench', 'Axe', 'Back Saw', 'Bolt', 'Brace', 'Bradawl', 'Clip', 'Diagonal Pliers', 'Dynanometer', 'Hammer', 'Hand Saw', 'Knife', 'Line Mans Pliers', 'Mallet', 'Nails', 'Needle Nose Pliers', 'Pebble', 'Pliers', 'Screw', 'Screwdriver', 'Slip Joint Pliers', 'Tester', 'Tool Box', 'Wrench']
+
+roboflow:
+  workspace: gopi-cheetah-p7w4o
+  project: tools-tx9kq
+  version: 3
+  license: MIT
+  url: https://universe.roboflow.com/gopi-cheetah-p7w4o/tools-tx9kq/dataset/3
