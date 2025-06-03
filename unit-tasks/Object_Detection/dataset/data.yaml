@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 4
+names: ['hammer', 'pliers', 'screwdriver', 'wrench']
+
+roboflow:
+  workspace: lala4768
+  project: screwdriver_subset
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/lala4768/screwdriver_subset/dataset/1
