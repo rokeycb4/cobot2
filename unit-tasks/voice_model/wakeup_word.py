@@ -6,7 +6,8 @@ from ament_index_python.packages import get_package_share_directory
 import MicController
 
 # MODEL_NAME = "hello_rokey_8332_32.tflite"
-MODEL_NAME = "hello_doovis.tflite"
+# MODEL_NAME = "hello_doovis.tflite"
+MODEL_NAME = "hello_doovis_v2.tflite"
 
 
 class WakeupWord:
