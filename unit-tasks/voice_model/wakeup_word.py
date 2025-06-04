@@ -7,7 +7,8 @@ import MicController
 
 # MODEL_NAME = "hello_rokey_8332_32.tflite"
 # MODEL_NAME = "hello_doovis.tflite"
-MODEL_NAME = "hello_doovis_v2.tflite"
+# MODEL_NAME = "hello_doovis_v2.tflite"
+MODEL_NAME = "hello_doovis_v3.tflite"
 
 
 class WakeupWord:
