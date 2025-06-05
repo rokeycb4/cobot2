@@ -338,6 +338,7 @@ class RobotController(Node):
         self.pick_and_place_drop(target_pos)
         self.init_robot_with_camera(True)
 
+    # 물체 잡아서 오른쪽/왼쪽에 놓기
     def pick_and_placeb(self, tool, drop_dir):
         """물체 집어서 오른쪽/왼쪽에 놓기"""
         print("[Tp_log] pick_and_place_target 실행")
@@ -346,12 +347,18 @@ class RobotController(Node):
         # 위치 초기화
         self.gripper_open()
         movej(home_j, vel=VELOCITY, acc=ACC)
-        mwait()
-
+        
+        while True:
+            if check_motion() == 0:
+                break
         target_pos = self.get_target_pos(tool)
         if not target_pos:
             self.send_message(f"{tool}의 위치를 찾을 수 없어요.")
             return 
+
+        if self.rotate_state == True:
+            target_pos[5] += 90
+            self.rotate_state == False
 
         # 공구 위치로 이동후 잡기
         movel(target_pos, vel=VELOCITY, acc=ACC)
@@ -360,9 +367,11 @@ class RobotController(Node):
         gripper.close_gripper()
         while gripper.get_status()[0]:
             time.sleep(0.5)
-        mwait()
 
         cur_pos = get_current_posx()[0]
+
+        # 잡고 올릴 위치 z+50
+        upper_pos = trans_(cur_pos, [0, 0, 50, 0, 0, 0])
 
         # 오른쪽/왼쪽에 따라 drop 위치 결정
         pos_leftx, pos_lefty = 310, -270
@@ -376,11 +385,12 @@ class RobotController(Node):
         ])
         lowered_pos = trans_(xy_moved_pos, [0, 0, -90, 0, 0, 0])
 
-        seg1 = posb(DR_LINE, xy_moved_pos, radius=20)
+        seg0 = posb(DR_LINE, upper_pos, radius=10)
+        seg1 = posb(DR_LINE, xy_moved_pos, radius=10)
         seg2 = posb(DR_LINE, lowered_pos, radius=0)
 
         print("[Tp_log] moveb시작")
-        moveb([seg1, seg2], vel=VELOCITY, acc=ACC, ref=DR_BASE, mod=0)
+        moveb([seg0, seg1, seg2], vel=VELOCITY, acc=ACC, ref=DR_BASE, mod=0)
 
         print("[Tp_log] 힘제어 시작")
         force_control_on(-20)
@@ -392,7 +402,7 @@ class RobotController(Node):
         while gripper.get_status()[0]:
             time.sleep(0.5)
 
-        self.init_robot_with_camera(True)
+        self.init_robot_with_camera()
 
     #물체를 사람에게 전달
     def bring_tool_move(self,tool,position):
